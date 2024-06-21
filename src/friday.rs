@@ -19,3 +19,28 @@ impl TryFrom<NaiveDate> for Friday {
         Ok(Self(date))
     }
 }
+
+#[cfg(test)]
+mod test {
+    use chrono::NaiveDate;
+
+    use crate::friday::Friday;
+
+    #[test]
+    fn try_from_failure() {
+        assert!(Friday::try_from(NaiveDate::from_ymd_opt(2024, 6, 20).unwrap()).is_err());
+    }
+
+    #[test]
+    fn try_from_success() {
+        assert!(Friday::try_from(NaiveDate::from_ymd_opt(2024, 6, 21).unwrap()).is_ok());
+    }
+
+    #[test]
+    fn previous_friday() {
+        let friday = Friday::try_from(NaiveDate::from_ymd_opt(2024, 6, 21).unwrap()).unwrap();
+        let prev_friday = friday.previous_friday();
+        let expected = Friday::try_from(NaiveDate::from_ymd_opt(2024, 6, 14).unwrap()).unwrap();
+        assert_eq!(prev_friday, expected);
+    }
+}
