@@ -18,14 +18,6 @@ struct Cli {
     date: NaiveDate,
 }
 
-fn get_friday_before_date(date: NaiveDate) -> NaiveDate {
-    date
-}
-
-fn clone_repo() -> Repo {
-    todo!()
-}
-
 fn checkout_last_before_date(repo: Repo, date: NaiveDate) -> Filesystem {
     todo!()
 }
@@ -37,6 +29,7 @@ fn pure_main(a: Filesystem, b: Filesystem) -> String {
 fn main() {
     let Cli { date } = Cli::parse();
     let this_friday = Friday::try_from(date).unwrap();
+    let last_friday = this_friday.previous_friday();
 
     let friday_last_week = get_friday_before_date(date);
     let friday_this_week = get_friday_before_date(friday_last_week);
