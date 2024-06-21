@@ -1,5 +1,6 @@
 use chrono::{Datelike, Days, NaiveDate, Weekday};
 
+#[derive(Debug, PartialEq, Eq)]
 pub struct Friday(NaiveDate);
 
 impl Friday {
