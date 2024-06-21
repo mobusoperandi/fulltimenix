@@ -1,5 +1,9 @@
+mod friday;
+
 use chrono::{Datelike, NaiveDate, Weekday};
 use clap::Parser;
+
+use crate::friday::Friday;
 
 #[derive(Debug, Clone, Copy)]
 struct Repo;
@@ -32,16 +36,10 @@ fn pure_main(a: Filesystem, b: Filesystem) -> String {
 
 fn main() {
     let Cli { date } = Cli::parse();
-    let this_friday = if date.weekday() == Weekday::Fri {
-        date
-    } else {
-        panic!("provided date is not a Friday");
-    };
+    let this_friday = Friday::try_from(date).unwrap();
 
     let friday_last_week = get_friday_before_date(date);
     let friday_this_week = get_friday_before_date(friday_last_week);
-
-    let repo = clone_repo();
 
     let checkout_friday_last_week = checkout_last_before_date(repo, friday_last_week);
     let checkout_friday_this_week = checkout_last_before_date(repo, friday_this_week);
