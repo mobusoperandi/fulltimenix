@@ -28,7 +28,6 @@
         crateOutputs = config.nci.outputs.nixpkgs-news;
       in {
         devShells.default = crateOutputs.devShell.overrideAttrs (old: {
-          #nativBuildInputs = [config.treefmt.build.wrapper];
           packages = [pkgs.rust-analyzer];
           NIXPKGS_CLONE_PATH = "faux";
         });
