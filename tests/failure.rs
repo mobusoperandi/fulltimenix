@@ -17,6 +17,7 @@ fn date_not_friday() {
 fn nixpkgs_clone_path_not_set() {
     let mut command = subject();
     command.arg("2024-06-13");
+    command.env_remove("NIXPKGS_CLONE_PATH");
     command
         .assert()
         .failure()

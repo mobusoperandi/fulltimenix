@@ -28,7 +28,7 @@
         crateOutputs = config.nci.outputs.nixpkgs-news;
       in {
         devShells.default = crateOutputs.devShell.overrideAttrs (old: {
-          packages = [pkgs.rust-analyzer];
+          packages = [pkgs.mob pkgs.rust-analyzer];
           env.NIXPKGS_MUTABLE_ = "faux";
         });
 
