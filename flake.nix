@@ -4,6 +4,7 @@
   inputs.nci.inputs.nixpkgs.follows = "nixpkgs";
   inputs.parts.url = "github:hercules-ci/flake-parts";
   inputs.parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+  inputs.treefmt-nix.url = "github:numtide/treefmt-nix";
 
   outputs = inputs @ {
     parts,
@@ -12,10 +13,13 @@
   }:
     parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "aarch64-darwin"];
+
       imports = [
         nci.flakeModule
+        inputs.treefmt-nix.flakeModule
         ./crates.nix
       ];
+
       perSystem = {
         pkgs,
         config,
@@ -24,10 +28,16 @@
         crateOutputs = config.nci.outputs.nixpkgs-news;
       in {
         devShells.default = crateOutputs.devShell.overrideAttrs (old: {
+          #nativBuildInputs = [config.treefmt.build.wrapper];
           packages = [pkgs.rust-analyzer];
           NIXPKGS_CLONE_PATH = "faux";
         });
+
         packages.default = crateOutputs.packages.release;
+
+        treefmt.projectRootFile = "flake.nix";
+        treefmt.programs.alejandra.enable = true;
+        treefmt.programs.rustfmt.enable = true;
       };
     };
 }

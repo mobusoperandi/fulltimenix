@@ -1,9 +1,5 @@
-{...}: {
-  perSystem = {
-    pkgs,
-    config,
-    ...
-  }: let
+{
+  perSystem = let
     crateName = "nixpkgs-news";
   in {
     nci.projects.${crateName}.path = ./.;
