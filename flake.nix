@@ -29,7 +29,7 @@
       in {
         devShells.default = crateOutputs.devShell.overrideAttrs (old: {
           packages = [pkgs.rust-analyzer];
-          env.NIXPKGS_CLONE_PATH = "faux";
+          env.NIXPKGS_MUTABLE_ = "faux";
         });
 
         packages.default = crateOutputs.packages.release;
